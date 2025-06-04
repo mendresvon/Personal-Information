@@ -1,0 +1,599 @@
+.bold {
+  font-weight: bold;
+}
+
+/* styles.css */
+
+/* --- Root Variables --- */
+:root {
+  --primary-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --code-font: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+  --bg-main: #f8f9fa; /* Light grey background for the main content area */
+  --bg-navbar: #ffffff; /* White background for the navbar */
+  --bg-card: #ffffff; /* White background for cards like sections and project cards */
+  --bg-code: #e9ecef; /* Light grey for code snippets */
+  --bg-target-highlight: #e6f7ff; /* Light blue for :target section highlight */
+
+  --text-primary: #212529; /* Very dark grey, near black for primary text */
+  --text-secondary: #5a6268; /* Medium grey for less important text */
+  --text-code: #c7254e; /* A common color for code text (pinkish-red) */
+
+  --accent-color-primary: #007bff; /* A vibrant blue */
+  --accent-color-primary-dark: #0056b3; /* Darker shade of blue for hover states */
+  --accent-color-primary-light: #cfe2ff; /* Lighter shade for backgrounds or subtle highlights */
+
+  --accent-color-secondary: #e85a00; /* A warm, energetic orange */
+  --accent-color-secondary-dark: #b34500; /* Darker orange */
+  --accent-color-secondary-light: #ffe8d6; /* Light orange for tags background */
+
+  --border-color: #dee2e6; /* Standard border color */
+  --shadow-color: rgba(0, 0, 0, 0.075); /* Subtle shadow */
+  --shadow-strong-color: rgba(0, 0, 0, 0.15); /* Stronger shadow for hover/active states */
+
+  --navbar-width: 280px;
+  --border-radius: 8px; /* Consistent border radius for elements */
+  --transition-speed: 0.3s; /* Standard transition speed for animations */
+}
+
+/* --- Global Resets & Defaults --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--primary-font);
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-main);
+  display: flex; /* Key for the side navbar layout */
+}
+
+/* --- Navbar Styling (#navbar) --- */
+#navbar {
+  width: var(--navbar-width);
+  height: 100vh; /* Full viewport height */
+  position: fixed; /* Fixed position on the left */
+  top: 0;
+  left: 0;
+  background-color: var(--bg-navbar);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 3px 0px 15px var(--shadow-color); /* Subtle 3D effect */
+  display: flex;
+  flex-direction: column; /* Stack header, links, footer vertically */
+  padding: 25px 20px;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+#navbar .nav-header {
+  font-size: 1.9em;
+  font-weight: 700;
+  color: var(--accent-color-primary);
+  margin-bottom: 30px;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#navbar .nav-links {
+  list-style: none;
+  flex-grow: 1; /* Allows footer to be pushed to the bottom */
+}
+
+#navbar .nav-links li {
+  margin-bottom: 8px;
+}
+
+#navbar .nav-links .nav-link {
+  display: block;
+  padding: 12px 18px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) ease-in-out;
+  position: relative; /* For potential future pseudo-elements */
+  border-left: 3px solid transparent; /* Placeholder for hover/active state */
+}
+
+#navbar .nav-links .nav-link:hover,
+#navbar .nav-links .nav-link:focus {
+  background-color: var(--accent-color-primary-light);
+  color: var(--accent-color-primary-dark);
+  transform: translateX(6px); /* Slight push effect */
+  box-shadow: 0 3px 7px rgba(0, 123, 255, 0.15); /* Subtle glow */
+  border-left-color: var(--accent-color-primary);
+}
+
+#navbar .nav-footer {
+  margin-top: auto; /* Pushes to bottom */
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+#navbar .nav-footer .mt-2 {
+  margin-top: 0.6rem;
+  font-style: italic;
+  font-size: 0.9em; /* Slightly smaller */
+}
+
+/* --- Main Document Styling (#main-doc) --- */
+#main-doc {
+  margin-left: var(--navbar-width); /* Account for fixed navbar width */
+  padding: 35px 45px;
+  width: calc(100% - var(--navbar-width));
+  min-height: 100vh;
+}
+
+/* --- Section Styling (.main-section) --- */
+.main-section {
+  margin-bottom: 50px;
+  padding: 30px;
+  background-color: var(--bg-card);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: all var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-out,
+    box-shadow var(--transition-speed) ease-out; /* Updated transition */
+  border: 1px solid var(--border-color);
+}
+
+/* NEW: Hover effect for .main-section */
+.main-section:not(:target):hover {
+  /* Apply hover only if not also targeted, or fine-tune if combined effect is desired */
+  transform: translateY(-6px) scale(1.008); /* Slightly lift and enlarge */
+  box-shadow: 0 10px 25px var(--shadow-strong-color); /* Enhance shadow on hover */
+}
+/* Adjusted :target to ensure hover and target transforms can coexist or prioritize as desired */
+.main-section:target {
+  background-color: var(--bg-target-highlight);
+  box-shadow: 0 8px 20px var(--shadow-strong-color), 0 0 0 4px var(--accent-color-primary-light);
+  transform: scale(1.005); /* :target scale might be overridden by hover's scale if more specific */
+  border-color: var(--accent-color-primary);
+}
+/* If you want hover's transform to always apply, even on a targeted section: */
+.main-section:hover {
+  transform: translateY(-6px) scale(1.01); /* Ensure this overrides or combines nicely */
+  box-shadow: 0 10px 25px var(--shadow-strong-color);
+}
+.main-section:target:hover {
+  /* Specific style for a section that is both targeted and hovered */
+  transform: translateY(-6px) scale(1.01); /* Prioritize hover's more dynamic transform */
+  box-shadow: 0 10px 25px var(--shadow-strong-color), 0 0 0 4px var(--accent-color-primary-light); /* Combine shadows */
+}
+
+.main-section header h1 {
+  font-size: 2.3em;
+  color: var(--text-primary);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid var(--accent-color-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.main-section header h1::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background-color: var(--accent-color-secondary);
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.main-section header {
+  /* Ensure header itself has no extra margin causing double space */
+  margin-bottom: 0;
+}
+
+.main-section header h1 {
+  font-size: 2.3em;
+  color: var(--text-primary);
+  margin-bottom: 25px; /* Space below the H1 */
+  padding-bottom: 15px;
+  border-bottom: 3px solid var(--accent-color-primary);
+  position: relative; /* For pseudo-element decoration */
+  display: inline-block; /* So border bottom only spans the text width */
+}
+
+.main-section header h1::after {
+  /* Small decorative line */
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background-color: var(--accent-color-secondary);
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+/* --- :target Highlighting --- */
+.main-section:target {
+  background-color: var(--bg-target-highlight);
+  box-shadow: 0 8px 20px var(--shadow-strong-color), 0 0 0 4px var(--accent-color-primary-light); /* Enhanced shadow and outline */
+  transform: scale(1.005); /* Very subtle zoom to draw attention */
+  border-color: var(--accent-color-primary); /* Highlight border */
+}
+
+/* --- General Element Styling --- */
+h2 {
+  font-size: 1.7em;
+  color: var(--accent-color-primary-dark);
+  margin-top: 25px;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--accent-color-primary-light);
+}
+
+p {
+  margin-bottom: 1.1em;
+  color: var(--text-primary); /* Ensures paragraphs use primary text color */
+}
+
+ul,
+ol {
+  margin-bottom: 1.1em;
+  padding-left: 25px; /* Indent list items */
+}
+
+li {
+  margin-bottom: 0.6em;
+}
+
+a {
+  color: var(--accent-color-primary);
+  text-decoration: none;
+  font-weight: 500; /* Make links slightly bolder */
+  transition: color var(--transition-speed) ease, text-decoration var(--transition-speed) ease;
+}
+
+a:hover,
+a:focus {
+  color: var(--accent-color-primary-dark);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px; /* Make underline more prominent */
+}
+
+code {
+  font-family: var(--code-font);
+  background-color: var(--bg-code);
+  color: var(--text-code);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  border: 1px solid darken(var(--bg-code), 10%);
+}
+
+.bold {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* --- Specific Section Content Styling --- */
+
+/* About Me */
+#About_Me .introduction p {
+  font-size: 1.1em;
+  line-height: 1.75;
+}
+
+#basic-information dl {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr; /* Label column takes what it needs, value takes rest */
+  gap: 12px 20px;
+  margin-top: 20px;
+}
+
+#basic-information dt {
+  font-weight: 600;
+  color: var(--accent-color-primary-dark);
+}
+
+#basic-information dd ul {
+  list-style-type: "– "; /* Em dash for a cleaner look */
+  padding-left: 10px; /* Adjust if using custom bullets like this */
+  margin-bottom: 0;
+}
+#basic-information dd ul li {
+  margin-bottom: 0.3em;
+}
+
+/* Education & Skills */
+.credentials {
+  margin-bottom: 35px;
+  padding: 20px;
+  border-left: 4px solid var(--accent-color-secondary-light);
+  background-color: #fdfdff; /* Slightly off-white to differentiate */
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.credentials h2 {
+  margin-top: 0; /* First element in .credentials */
+  border-bottom: none;
+}
+
+#education-detail {
+  font-style: italic;
+  color: var(--text-secondary);
+  font-size: 0.95em;
+}
+
+#course-list li::marker,
+#certifications-list li::marker {
+  color: var(--accent-color-primary); /* Color the default list bullets */
+}
+
+/* Project & Portfolio */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive grid */
+  gap: 30px;
+}
+
+.project-card {
+  background-color: var(--bg-navbar); /* Consistent card background */
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: 0 6px 18px var(--shadow-color);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  display: flex;
+  flex-direction: column; /* Allows for pushing tags/link to bottom */
+  border: 1px solid var(--border-color);
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.02); /* Lift and slightly enlarge effect */
+  box-shadow: 0 12px 28px var(--shadow-strong-color); /* Stronger shadow on hover */
+}
+
+.project-image {
+  width: 100%;
+  height: 200px; /* Fixed height for consistency */
+  object-fit: cover; /* Cover the area, might crop */
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  margin-bottom: 18px;
+  border: 1px solid var(--border-color);
+}
+
+.project-title {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--accent-color-primary-dark);
+  margin-bottom: 12px;
+}
+
+.project-card p {
+  /* Paragraphs within project card */
+  font-size: 0.95em;
+  margin-bottom: 0.8em;
+}
+
+.project-tags {
+  /* This is a <p> element in your HTML */
+  margin-top: auto; /* Pushes tags (and link below it) to the bottom */
+  margin-bottom: 15px; /* Space before the link */
+  padding-top: 10px; /* Space above tags if content is short */
+}
+
+.project-tags .tag {
+  display: inline-block;
+  background-color: var(--accent-color-secondary-light);
+  color: var(--accent-color-secondary-dark);
+  padding: 0.4em 0.9em;
+  border-radius: 20px; /* Pill shape */
+  font-size: 0.8em;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
+}
+
+.project-tags .tag:hover {
+  background-color: var(--accent-color-secondary);
+  color: white;
+  transform: scale(1.05); /* Slight pop effect for tags */
+}
+
+.project-link {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: var(--accent-color-primary);
+  color: white !important; /* Ensure text is white */
+  text-decoration: none !important; /* Ensure no underline */
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-weight: 600;
+  transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+  align-self: flex-start; /* Align button to start if card is flex container */
+}
+
+.project-link:hover,
+.project-link:focus {
+  background-color: var(--accent-color-primary-dark);
+  color: white !important;
+  text-decoration: none !important;
+  transform: translateY(-3px) scale(1.02); /* Lift and slight scale */
+}
+
+/* Goals & Aspirations */
+.goal-list {
+  list-style-type: none; /* Remove default bullets */
+  padding-left: 5px;
+}
+
+.goal-list li {
+  padding-left: 30px; /* Space for custom bullet */
+  position: relative;
+  margin-bottom: 1em;
+  font-size: 1.05em;
+}
+
+.goal-list li::before {
+  content: "🎯"; /* Target emoji as custom bullet */
+  position: absolute;
+  left: 0;
+  top: -1px; /* Fine-tune vertical alignment */
+  font-size: 1.2em; /* Slightly larger emoji */
+  color: var(--accent-color-secondary); /* Use secondary accent for variety */
+}
+
+.goal-summary {
+  font-style: italic;
+  color: var(--text-secondary);
+  border-left: 4px solid var(--accent-color-primary-light);
+  padding: 10px 15px;
+  margin-top: 25px;
+  background-color: #fdfdff;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* Contact */
+.contact-links .contact-item {
+  margin-bottom: 20px; /* Increased margin for icon space */
+  font-size: 1.1em;
+  display: flex; /* Use flex to align icon and text */
+  align-items: center; /* Vertically center icon with text */
+}
+
+/* NEW: Styles for icons using ::before */
+.contact-links .contact-item::before {
+  content: "";
+  display: inline-block;
+  width: 1.3em; /* Adjust size as needed */
+  height: 1.3em; /* Adjust size as needed */
+  margin-right: 12px; /* Space between icon and text */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1)); /* Optional subtle shadow for icons */
+  flex-shrink: 0; /* Prevent icon from shrinking if text is long */
+}
+
+/* Specific icons */
+.contact-item.contact-email::before {
+  /* Simple Envelope SVG - URL Encoded */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='currentColor' stroke='%23var(--accent-color-primary)' stroke-width='0' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z'/%3E%3C/svg%3E");
+  color: var(--accent-color-primary); /* Sets the fill color of the SVG */
+}
+
+.contact-item.contact-linkedin::before {
+  /* LinkedIn SVG (simplified) - URL Encoded */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z'/%3E%3C/svg%3E");
+  color: var(--accent-color-primary);
+}
+
+.contact-item.contact-github::before {
+  /* GitHub SVG (Octocat) - URL Encoded */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.109-.778.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/%3E%3C/svg%3E");
+  color: var(--accent-color-primary);
+}
+
+.contact-links .contact-item strong {
+  /* No change, just ensuring it's here for context */
+  color: var(--accent-color-primary-dark);
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+/* --- Media Queries for Responsiveness (Basic adjustments) --- */
+@media (max-width: 992px) {
+  /* Larger breakpoint for navbar switch */
+  body {
+    flex-direction: column; /* Stack navbar and main content */
+  }
+
+  #navbar {
+    width: 100%;
+    height: auto; /* Auto height for content */
+    position: static; /* No longer fixed */
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 3px 10px var(--shadow-color);
+    padding: 15px;
+  }
+
+  #navbar .nav-header {
+    text-align: left;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    font-size: 1.5em;
+  }
+  #navbar .nav-links {
+    display: flex; /* Horizontal layout for links on small screens */
+    flex-wrap: wrap; /* Wrap links if they don't fit */
+    justify-content: flex-start;
+    flex-grow: 0; /* Don't let it grow excessively */
+    margin-bottom: 10px;
+  }
+  #navbar .nav-links li {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  #navbar .nav-links .nav-link {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    transform: none !important; /* Reset transform from desktop hover */
+    box-shadow: none !important; /* Reset shadow */
+    border-left-width: 2px;
+  }
+  #navbar .nav-links .nav-link:hover,
+  #navbar .nav-links .nav-link:focus {
+    transform: none; /* Disable translateX on mobile */
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+  }
+
+  #navbar .nav-footer {
+    text-align: left;
+    padding: 15px 0 0 0; /* Adjust padding */
+    font-size: 0.8em;
+  }
+
+  #main-doc {
+    margin-left: 0;
+    width: 100%;
+    padding: 25px;
+  }
+
+  .main-section header h1 {
+    font-size: 1.9em;
+  }
+  .main-section header h1::after {
+    width: 50px;
+    height: 3px;
+  }
+
+  .main-section:target {
+    transform: none; /* Disable zoom on mobile if it causes layout issues */
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr; /* Stack project cards on smaller screens */
+  }
+
+  #basic-information dl {
+    grid-template-columns: 1fr; /* Stack dt/dd */
+  }
+  #basic-information dt {
+    margin-bottom: 0.2em; /* Add small space when stacked */
+  }
+
+  .main-section header h1 {
+    font-size: 1.7em;
+  }
+}
